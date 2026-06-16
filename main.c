@@ -135,9 +135,9 @@ void app_main(void) {
     } else {
         // ---- Setup-modus (captive portal) ----
         status_led_set(LED_SETUP);
-        set_ap_config("ESP-Setup", "setup1234");
+        set_ap_config("Wisp-Setup", "wispsetup");
         ESP_ERROR_CHECK(esp_wifi_start());   // STA blijft idle, alleen voor scannen
         portal_start();
-        ESP_LOGI(TAG, "Setup: verbind met 'ESP-Setup' (wachtwoord setup1234), ga naar 192.168.4.1");
+        ESP_LOGI(TAG, "Setup: verbind met 'Wisp-Setup' (wachtwoord wispsetup), ga naar 192.168.4.1");
     }
 }

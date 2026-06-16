@@ -1,0 +1,7 @@
+# Nodig om verkeer van de AP-clients via de STA-uplink te routeren (router/NAT-functie)
+CONFIG_LWIP_IP_FORWARD=y
+CONFIG_LWIP_IPV4_NAPT=y
+CONFIG_LWIP_L2_TO_L3_COPY=y
+
+# Grotere app-partitie (WiFi + httpd + led_strip past niet altijd in de standaard 1 MB)
+CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y
