@@ -140,6 +140,14 @@ To leave the monitor, press **Ctrl+]**.
 
 ## Step 4 — First-time setup (the web page)
 
+![Wisp setup portal](images/Wifi-setup.png)
+
+*The setup portal, served at `http://192.168.4.1` when the LED is blue. It scans
+for nearby networks (tap **Refresh** to rescan), lets you pick the upstream WiFi
+— with an optional **Username** for WPA2-Enterprise — and name **your own
+network (Access Point)**. **Save and connect** stores everything and reboots the
+board.*
+
 1. Power the board. The LED turns **blue** — it has started a setup network.
 2. On your phone or laptop, open WiFi settings and connect to **`Wisp-Setup`**
    (password: **`wispsetup`**).
@@ -180,6 +188,13 @@ dashboard (auto-refreshing every 2 s):
 - A table of connected devices: IP, MAC, signal and WiFi mode.
 - Uptime and free memory.
 - A **Reconfigure (erase config)** button to start over.
+
+![Wisp status page](images/Monitor.png)
+
+*The live dashboard in operational mode. Here Wisp ("Own network: Test") is
+connected upstream to "WiFinet" on channel 6 at −49 dBm, routing one client
+(`192.168.4.2`) at 886 KB/s down / 14 KB/s up. Throughput, the device list and
+the system line all refresh every 2 seconds.*
 
 ---
 
