@@ -20,7 +20,8 @@ bool config_load(app_config_t *cfg) {
     }
     memset(cfg, 0, sizeof(*cfg));
     bool have_up = get_str(h, "up_ssid", cfg->up_ssid, sizeof(cfg->up_ssid));
-    get_str(h, "up_pass", cfg->up_pass, sizeof(cfg->up_pass));   // mag leeg zijn (open net)
+    get_str(h, "up_user", cfg->up_user, sizeof(cfg->up_user));   // empty = PSK, set = Enterprise
+    get_str(h, "up_pass", cfg->up_pass, sizeof(cfg->up_pass));   // may be empty (open network)
     bool have_ap = get_str(h, "ap_ssid", cfg->ap_ssid, sizeof(cfg->ap_ssid));
     get_str(h, "ap_pass", cfg->ap_pass, sizeof(cfg->ap_pass));
     nvs_close(h);
@@ -35,6 +36,7 @@ bool config_save(const app_config_t *cfg) {
         return false;
     }
     nvs_set_str(h, "up_ssid", cfg->up_ssid);
+    nvs_set_str(h, "up_user", cfg->up_user);
     nvs_set_str(h, "up_pass", cfg->up_pass);
     nvs_set_str(h, "ap_ssid", cfg->ap_ssid);
     nvs_set_str(h, "ap_pass", cfg->ap_pass);

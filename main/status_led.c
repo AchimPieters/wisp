@@ -4,7 +4,7 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 
-#define LED_GPIO 8          // WS2812 op de meeste ESP32-C6 Super Mini's
+#define LED_GPIO 8          // WS2812 on most ESP32-C6 / C3 Super Mini boards
 
 static const char *TAG = "led";
 static led_strip_handle_t s_strip;
@@ -16,26 +16,26 @@ static void set_rgb(uint8_t r, uint8_t g, uint8_t b) {
     led_strip_refresh(s_strip);
 }
 
-// Eigen taakje: zet de kleur op basis van de huidige status (vast of knipperend).
-// Helderheid bewust laag gehouden; de onboard-LED is fel.
+// Dedicated task: drives the color based on the current state (steady or
+// blinking). Brightness is kept deliberately low; the on-board LED is bright.
 static void led_task(void *pv) {
     bool on = false;
     while (1) {
         switch (s_state) {
-            case LED_SETUP:                       // rustig blauw
+            case LED_SETUP:                       // calm blue
                 set_rgb(0, 0, 40);
                 vTaskDelay(pdMS_TO_TICKS(400));
                 break;
-            case LED_ONLINE:                      // vast groen
+            case LED_ONLINE:                      // steady green
                 set_rgb(0, 40, 0);
                 vTaskDelay(pdMS_TO_TICKS(400));
                 break;
-            case LED_CONNECTING:                  // oranje knipperend
+            case LED_CONNECTING:                  // blinking orange
                 on = !on;
                 set_rgb(on ? 45 : 0, on ? 18 : 0, 0);
                 vTaskDelay(pdMS_TO_TICKS(250));
                 break;
-            case LED_OFFLINE:                      // rood knipperend
+            case LED_OFFLINE:                      // blinking red
                 on = !on;
                 set_rgb(on ? 45 : 0, 0, 0);
                 vTaskDelay(pdMS_TO_TICKS(250));
@@ -59,7 +59,7 @@ void status_led_init(void) {
         .flags = { .with_dma = false },
     };
     if (led_strip_new_rmt_device(&scfg, &rcfg, &s_strip) != ESP_OK) {
-        ESP_LOGW(TAG, "WS2812 niet geinitialiseerd (klopt GPIO8 voor jouw board?)");
+        ESP_LOGW(TAG, "WS2812 not initialized (is GPIO%d correct for your board?)", LED_GPIO);
         s_strip = NULL;
         return;
     }

@@ -1,0 +1,29 @@
+name: build
+
+# Compile-tests the firmware against ESP-IDF on every push and pull request.
+# A clean build across all supported targets is the CI gate for this project.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # All Wi-Fi-capable ESP32 targets this firmware supports.
+        target: [esp32, esp32s2, esp32s3, esp32c3, esp32c6]
+    name: build (${{ matrix.target }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build with ESP-IDF
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.4.2
+          target: ${{ matrix.target }}
